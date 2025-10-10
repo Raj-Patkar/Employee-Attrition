@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Employee Attrition Prediction</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="container">
+    <h1>Employee Attrition Prediction</h1>
+    <form action="/predict" method="POST">
+      
+      <label>Age:</label>
+      <input type="number" name="age" required>
+
+      <label>Monthly Income (₹):</label>
+      <input type="number" name="monthly_income" required>
+
+      <label>OverTime (0 = No, 1 = Yes):</label>
+      <input type="number" name="overtime" min="0" max="1" required>
+
+      <label>Job Satisfaction (1–4):</label>
+      <input type="number" name="job_satisfaction" min="1" max="4" required>
+
+      <label>Years at Company:</label>
+      <input type="number" name="years_at_company" required>
+
+      <button type="submit">Predict</button>
+    </form>
+  </div>
+</body>
+</html>
