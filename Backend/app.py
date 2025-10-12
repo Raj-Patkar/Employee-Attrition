@@ -5,9 +5,20 @@ import os
 
 app = Flask(__name__, template_folder="../frontend/templates", static_folder="../frontend/static")
 
-# Load the trained model
-model_path = os.path.join(os.path.dirname(__file__), "model", "attrition_model.pkl")
-#model = pickle.load(open(model_path, "rb"))
+# Define paths
+scaler_path = os.path.join(os.path.dirname(__file__), "model", "scaler.pkl")
+model_path = os.path.join(os.path.dirname(__file__), "model", "logistic_regression_attrition.pkl")
+
+# Load the scaler and model safely
+scaler, model = None, None
+if os.path.exists(scaler_path) and os.path.exists(model_path):
+    with open(scaler_path, "rb") as f:
+        scaler = pickle.load(f)
+    with open(model_path, "rb") as f:
+        model = pickle.load(f)
+    print("✅ Scaler and Model loaded successfully.")
+else:
+    print("⚠️ Missing 'scaler.pkl' or 'logistic_regression_attrition.pkl' in the 'model' folder.")
 
 @app.route('/')
 def home():
@@ -16,22 +27,28 @@ def home():
 @app.route('/predict', methods=['POST'])
 def predict():
     try:
-        age = int(request.form['age'])
-        monthly_income = float(request.form['monthly_income'])
-        overtime = int(request.form['overtime'])
-        job_satisfaction = int(request.form['job_satisfaction'])
-        years_at_company = int(request.form['years_at_company'])
+        # Collect all input fields from form
+        fields = [
+            'Age', 'DistanceFromHome', 'EnvironmentSatisfaction', 'JobInvolvement',
+            'JobLevel', 'JobSatisfaction', 'MonthlyIncome', 'StockOptionLevel',
+            'TotalWorkingYears', 'WorkLifeBalance', 'YearsAtCompany',
+            'YearsInCurrentRole', 'YearsWithCurrManager'
+        ]
 
-        # Format input
-        input_data = np.array([[age, monthly_income, overtime, job_satisfaction, years_at_company]])
+        # Convert input values to float
+        input_data = np.array([[float(request.form[field]) for field in fields]])
 
-        # Predict
-        prediction = model.predict(input_data)[0]
+        if scaler is None or model is None:
+            raise Exception("Scaler or Model not loaded. Please check your model folder.")
 
-        if prediction == 1:
-            result = "Employee likely to leave 😟"
-        else:
-            result = "Employee will stay 🙂"
+        # Scale the input using your saved scaler
+        scaled_data = scaler.transform(input_data)
+
+        # Predict using the logistic regression model
+        prediction = model.predict(scaled_data)[0]
+
+        # Interpret result
+        result = "Employee likely to leave 😟" if prediction == 1 else "Employee will stay 🙂"
 
         return render_template("result.html", prediction=result)
 

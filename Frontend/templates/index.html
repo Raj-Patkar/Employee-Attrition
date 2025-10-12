@@ -1,33 +1,112 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Employee Attrition Prediction</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Attrition Prediction</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #e0f7fa, #fff);
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 90%;
+            max-width: 600px;
+            margin: 50px auto;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            padding: 30px;
+        }
+        h1 {
+            text-align: center;
+            color: #00796b;
+            margin-bottom: 25px;
+        }
+        form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        label {
+            font-weight: 500;
+            color: #333;
+        }
+        input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+        .full-width {
+            grid-column: span 2;
+            text-align: center;
+        }
+        button {
+            background-color: #00796b;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        button:hover {
+            background-color: #004d40;
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Employee Attrition Prediction</h1>
-    <form action="/predict" method="POST">
-      
-      <label>Age:</label>
-      <input type="number" name="age" required>
+    <div class="container">
+        <h1>Employee Attrition Prediction</h1>
+        <form action="/predict" method="POST">
+            
+            <label for="Age">Age</label>
+            <input type="number" name="Age" id="Age" required>
 
-      <label>Monthly Income (₹):</label>
-      <input type="number" name="monthly_income" required>
+            <label for="DistanceFromHome">Distance From Home</label>
+            <input type="number" name="DistanceFromHome" id="DistanceFromHome" required>
 
-      <label>OverTime (0 = No, 1 = Yes):</label>
-      <input type="number" name="overtime" min="0" max="1" required>
+            <label for="EnvironmentSatisfaction">Environment Satisfaction</label>
+            <input type="number" name="EnvironmentSatisfaction" id="EnvironmentSatisfaction" required>
 
-      <label>Job Satisfaction (1–4):</label>
-      <input type="number" name="job_satisfaction" min="1" max="4" required>
+            <label for="JobInvolvement">Job Involvement</label>
+            <input type="number" name="JobInvolvement" id="JobInvolvement" required>
 
-      <label>Years at Company:</label>
-      <input type="number" name="years_at_company" required>
+            <label for="JobLevel">Job Level</label>
+            <input type="number" name="JobLevel" id="JobLevel" required>
 
-      <button type="submit">Predict</button>
-    </form>
-  </div>
+            <label for="JobSatisfaction">Job Satisfaction</label>
+            <input type="number" name="JobSatisfaction" id="JobSatisfaction" required>
+
+            <label for="MonthlyIncome">Monthly Income</label>
+            <input type="number" name="MonthlyIncome" id="MonthlyIncome" required>
+
+            <label for="StockOptionLevel">Stock Option Level</label>
+            <input type="number" name="StockOptionLevel" id="StockOptionLevel" required>
+
+            <label for="TotalWorkingYears">Total Working Years</label>
+            <input type="number" name="TotalWorkingYears" id="TotalWorkingYears" required>
+
+            <label for="WorkLifeBalance">Work Life Balance</label>
+            <input type="number" name="WorkLifeBalance" id="WorkLifeBalance" required>
+
+            <label for="YearsAtCompany">Years At Company</label>
+            <input type="number" name="YearsAtCompany" id="YearsAtCompany" required>
+
+            <label for="YearsInCurrentRole">Years In Current Role</label>
+            <input type="number" name="YearsInCurrentRole" id="YearsInCurrentRole" required>
+
+            <label for="YearsWithCurrManager">Years With Current Manager</label>
+            <input type="number" name="YearsWithCurrManager" id="YearsWithCurrManager" required>
+
+            <div class="full-width">
+                <button type="submit">Predict</button>
+            </div>
+        </form>
+    </div>
 </body>
 </html>
